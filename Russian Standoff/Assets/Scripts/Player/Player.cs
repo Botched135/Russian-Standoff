@@ -29,10 +29,10 @@ public class Player : MonoBehaviour {
         body = this.GetComponent<Rigidbody2D>();
         SetRayPoints();
 	}
-	
 	// Update is called once per frame
 	void Update () {
         velocity = Vector3.zero;
+
         
         if (Input.GetKey(KeyCode.LeftArrow) && !MidAirCollision())
         {
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour {
         }
         if (onGround() && Input.GetKeyDown(KeyCode.Space))
         { //consider jump timer
-            velocity = Vector3.up * jumpSpeed;
+            velocity.y = Vector3.up.y * jumpSpeed;
         }
         Move();
 
