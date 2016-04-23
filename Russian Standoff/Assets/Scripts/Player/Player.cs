@@ -24,6 +24,7 @@ namespace RussianStandOff
         private Shooting fireGun;
         // Use this for initialization
 
+
         //Sound effects
         public AudioClip click01;
         public AudioClip click02;
@@ -31,6 +32,10 @@ namespace RussianStandOff
         public AudioClip GunShot01;
         public AudioClip GunShot02;
         public AudioClip Reload01;
+
+        
+
+       
 
         void Awake()
         {
@@ -109,7 +114,8 @@ namespace RussianStandOff
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                fireGun.Shoot();
+                fireGun._chamber.Shoot(this);
+/*
                 if(fireGun.Shoot() == false)
                 {
                     //Play "click" sound effect
@@ -139,12 +145,12 @@ namespace RussianStandOff
                         AudioSource.PlayClipAtPoint(GunShot02, transform.position);
                     }
                 }
-
+*/
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                fireGun._chamber.reload();
-                AudioSource.PlayClipAtPoint(Reload01, transform.position);
+                fireGun._chamber.reload(this);
+             //   AudioSource.PlayClipAtPoint(Reload01, transform.position);
             }
 
         }

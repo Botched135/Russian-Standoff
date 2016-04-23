@@ -16,14 +16,14 @@ namespace RussianStandOff
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         }
        
-        public bool Shoot()
+        public bool Shoot(Player source)
         {
             if (lastCast + coolDown <= Time.time)
             {
 
                 lastCast = Time.time;
                 
-                if (!_chamber.Shoot())//chamber does not contain bullet 
+                if (!_chamber.Shoot(source))//chamber does not contain bullet 
                 {
                     return false;
                 }

@@ -9,9 +9,17 @@ namespace RussianStandOff
         private int chamberSize;
         private int shotsLeft;
         private bool[] shotChamber;
+        /*
+                //Sound effects
+                public AudioClip click01;
+                public AudioClip click02;
+                public AudioClip click03;
+                public AudioClip GunShot01;
+                public AudioClip GunShot02;
+                public AudioClip Reload01;
+        */
 
-
-
+        
         public float[] percentage = { 1.0F, 0.5F, 0.33F, 0.25F, 0.15F, 0.10F };
         public float shotPercentage;
 
@@ -31,38 +39,61 @@ namespace RussianStandOff
             this.shotChamber = FeelingLuckyPunk();
         }
 
-        public bool Shoot()
+        public bool Shoot(Player source)
         {
             Debug.Log(shotsLeft);
             //If the chamber isn't empty and you try to shoot, you'll shoot or shoot a blank depending on shotPercentage
             if (shotsLeft > 0)
             {
-                
+
                 float number = Random.value;
-                if(shotChamber[this.chamberSize-shotsLeft] == true)
+                if (shotChamber[this.chamberSize - shotsLeft] == true)
                 {
                     //FIRE!
                     shotsLeft--;
-                    return true;
+                    int bangbang = Random.Range(1, 2);
+                    if (bangbang == 1)
+                    {
+
+                        AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position);
+                    }
+                    else if (bangbang == 2)
+                    {
+                        AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position);
+                    }
+                        return true;
+                    }
+                    else
+                    {
+                        //*CLICK!*
+                        shotsLeft--;
+                        int clickclick = Random.Range(1, 3);
+                        if (clickclick == 1)
+                        {
+                            AudioSource.PlayClipAtPoint(source.click01, source.transform.position);
+                        }
+                        else if (clickclick == 2)
+                        {
+                            AudioSource.PlayClipAtPoint(source.click02, source.transform.position);
+                        }
+                        else if (clickclick == 3)
+                        {
+                            AudioSource.PlayClipAtPoint(source.click03, source.transform.position);
+                        }
+                        return false;
+
+                    }
+
                 }
                 else
                 {
-                    //*CLICK!*
-                    shotsLeft--;
-                    return false;
-                    
-                }
-                
-            }
-            else
-                {
-                    reload();
+                    reload(source);
                     return false;
                 }
             
         }
 
-        public void reload()
+        public void reload(Player source)
         {
             //timer obviously
             this.shotsLeft = chamberSize;
@@ -73,6 +104,8 @@ namespace RussianStandOff
                 printing += " " + chamber;
             }
             Debug.Log(printing);
+
+            AudioSource.PlayClipAtPoint(source.Reload01, source.transform.position);
 
         }
         public bool[] FeelingLuckyPunk()
