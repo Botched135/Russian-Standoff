@@ -28,9 +28,6 @@ namespace RussianStandOff
             this.chamberSize = 6;
             this.shotsLeft = this.chamberSize;
             this.shotChamber = FeelingLuckyPunk() ;
-      
-
-
         }
        public ChamberCode(int _chamberSize)
         {
