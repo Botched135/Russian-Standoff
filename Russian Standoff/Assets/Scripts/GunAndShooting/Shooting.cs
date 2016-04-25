@@ -17,10 +17,14 @@ namespace RussianStandOff
         void Awake()
         {
             body = GetComponent<Rigidbody2D>();
-            _chamber = new ChamberCode();
+            _chamber = gameObject.AddComponent<ChamberCode>();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         }
-       
+       void Update()
+        {
+            Debug.DrawRay(transform.position + (mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized),
+                                                            mainCamera.ScreenToWorldPoint(Input.mousePosition), Color.red);
+        }
         public bool Shoot(Player source)
         {
             if (lastCast + coolDown <= Time.time)
@@ -30,15 +34,15 @@ namespace RussianStandOff
                 
                 if (!_chamber.Shoot(source))//chamber does not contain bullet 
                 {
+                   
                     return false;
                 }
-                Debug.Log("SHOT");
+                //Consinder circle collider
                 RaycastHit2D hit = Physics2D.Raycast(transform.position + (mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized),
                                                             mainCamera.ScreenToWorldPoint(Input.mousePosition)); //needs update, basically completly fucked up
                 body.AddForce(-(mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized)*knockbackFactor, ForceMode2D.Impulse); //Addforce in opposite direction of the gun shot
                 if (hit.collider != null && hit.collider.CompareTag("Player"))
-                {
-                                        
+                {               
                     hit.collider.gameObject.GetComponent<Player>().Death(gameObject);
                 }
                 return true;
