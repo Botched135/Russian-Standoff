@@ -5,35 +5,31 @@ namespace RussianStandOff
 {
     public class ChamberCode : MonoBehaviour
     {
-
+        
         private int chamberSize;
         private int shotsLeft;
         private bool[] shotChamber;
-        /*
-                //Sound effects
-                public AudioClip click01;
-                public AudioClip click02;
-                public AudioClip click03;
-                public AudioClip GunShot01;
-                public AudioClip GunShot02;
-                public AudioClip Reload01;
-        */
 
-        
-        public float[] percentage = { 1.0F, 0.5F, 0.33F, 0.25F, 0.15F, 0.10F };
-        public float shotPercentage;
+        public bool isReloading;
 
-        public ChamberCode()
+        void Start()
         {
             this.chamberSize = 6;
             this.shotsLeft = this.chamberSize;
-            this.shotChamber = FeelingLuckyPunk() ;
+            this.shotChamber = FeelingLuckyPunk();
+            this.isReloading = false;
+
         }
-       public ChamberCode(int _chamberSize)
+    
+            
+        
+       public ChamberCode(int _chamberSize, float _reloadTime)
         {
             this.chamberSize = _chamberSize;
             this.shotsLeft = this.chamberSize;
             this.shotChamber = FeelingLuckyPunk();
+            this.isReloading = false;
+        
         }
 
         public bool Shoot(Player source)
@@ -43,23 +39,25 @@ namespace RussianStandOff
             if (shotsLeft > 0)
             {
 
-                float number = Random.value;
-                if (shotChamber[this.chamberSize - shotsLeft] == true)
+                if (shotChamber[this.chamberSize - shotsLeft])
                 {
                     //FIRE!
                     shotsLeft--;
                     int bangbang = Random.Range(1, 2);
+                    Debug.Log(bangbang);
                     if (bangbang == 1)
                     {
 
                         AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position);
+                        return true;
                     }
                     else if (bangbang == 2)
                     {
                         AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position);
-                    }
                         return true;
                     }
+                    return true;
+                }
                     else
                     {
                         //*CLICK!*
@@ -84,15 +82,24 @@ namespace RussianStandOff
                 }
                 else
                 {
-                    reload(source);
-                    return false;
+                Debug.Log(source.name);
+                float v = 2.5f;
+                StartCoroutine(reload(source, v));
+                return false;
                 }
             
         }
-
-        public void reload(Player source)
+        public void reload()
         {
-            //timer obviously
+            this.shotsLeft = chamberSize;
+            this.shotChamber = FeelingLuckyPunk();
+        }
+        public IEnumerator reload(Player source, float reloadTime)
+        {
+            this.isReloading = true;
+          
+            AudioSource.PlayClipAtPoint(source.Reload01, source.transform.position);
+            yield return new WaitForSeconds(reloadTime);
             this.shotsLeft = chamberSize;
             this.shotChamber = FeelingLuckyPunk();
             string printing = "";
@@ -101,8 +108,7 @@ namespace RussianStandOff
                 printing += " " + chamber;
             }
             Debug.Log(printing);
-
-            AudioSource.PlayClipAtPoint(source.Reload01, source.transform.position);
+            this.isReloading = false;
 
         }
         public bool[] FeelingLuckyPunk()

@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 namespace RussianStandOff
 {
     public class Player : MonoBehaviour
     {
+        public int playerNum;
+        public PlayerIndex playerIndex;
         //rayPoints
         [SerializeField]
         private GameObject rayPointLeft, rayPointRight, bottomRayPoint, middleRayPoint, topRayPoint;
@@ -32,8 +35,9 @@ namespace RussianStandOff
         public AudioClip GunShot02;
         public AudioClip Reload01;
 
-        void Awake()
+        void Start()
         {
+            playerIndex = (PlayerIndex)playerNum;
             fireGun = GetComponent<Shooting>();
             scaleFactorX = transform.localScale.x;
             scaleFactorY = transform.localScale.y;
@@ -52,102 +56,70 @@ namespace RussianStandOff
         void Update()
         {
             velocity = Vector3.zero;
-           // Debug.Log(fireGun.CanShoot() + " " + fireGun.mainCamera.WorldToScreenPoint(Input.mousePosition));
-            if (Input.GetKey(KeyCode.LeftArrow) && !MidAirCollision())
+            if (!fireGun._chamber.isReloading)
             {
-                velocity.x += Vector3.left.x * speed;
-            }
-            if (Input.GetKey(KeyCode.RightArrow) && !MidAirCollision())
-            {
-                velocity.x += Vector3.right.x * speed;
-            }
-            if (onGround() && Input.GetKeyDown(KeyCode.Space))
-            { //consider jump timer
-                velocity.y = Vector3.up.y * jumpSpeed;
-            }
-            Move();
-
-            Vector3 v = body.velocity;
-
-            if (body.velocity.x < -0.01)
-            {
-                Vector3 temp = transform.localScale;
-                temp.x = Mathf.Abs(temp.x) * -1;
-                transform.localScale = temp;
-                isTurnedRight = false;
-            }
-            else if (body.velocity.x > 0.01)
-            {
-                Vector3 temp = transform.localScale;
-                temp.x = Mathf.Abs(temp.x);
-                transform.localScale = temp;
-                isTurnedRight = true;
-            }
-            if (Mathf.Abs(v.x) > maxSpeed && onGround())
-            {
-                Vector2 temp = v;
-                temp.x = Mathf.Sign(temp.x) * maxSpeed;
-                v = temp;
-                body.velocity = v;
-            }
-
-            if (Mathf.Abs(v.x) > maxAirSpeed && !onGround())
-            {
-                Vector2 temp = v;
-                temp.x = Mathf.Sign(temp.x) * maxAirSpeed;
-                v = temp;
-                body.velocity = v;
-            }
-            if (Mathf.Abs(v.y) > maxJumpSpeed)
-            {
-                Vector2 temp = v;
-                temp.y = Mathf.Sign(temp.y) * maxJumpSpeed;
-                v = temp;
-                body.velocity = v;
-            }
 
 
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                fireGun._chamber.Shoot(this);
-/*
-                if(fireGun.Shoot() == false)
+                if (Mathf.Abs(Input.GetAxis("Xbox"+playerIndex+"_X_Axis_Left"))>0.25f && !MidAirCollision())
                 {
-                    //Play "click" sound effect
-                    int clickclick = Random.Range(1, 3);
-                    if (clickclick == 1)
-                    {
-                        AudioSource.PlayClipAtPoint(click01, transform.position);
-                    }
-                    else if (clickclick == 2)
-                    {
-                        AudioSource.PlayClipAtPoint(click02, transform.position);
-                    }
-                    else if(clickclick == 3)
-                    {
-                        AudioSource.PlayClipAtPoint(click03, transform.position);
-                    }
+                    velocity.x = Input.GetAxis("Xbox"+playerIndex+"_X_Axis_Left")* speed;
                 }
-                else if (fireGun.Shoot() == true)
-                {
-                    int bangbang = Random.Range(1, 2);
-                    if (bangbang == 1)
-                    {
-                        AudioSource.PlayClipAtPoint(GunShot01, transform.position);
-                    }
-                    else if (bangbang == 2)
-                    {
-                        AudioSource.PlayClipAtPoint(GunShot02, transform.position);
-                    }
+                if (onGround() && Input.GetButtonDown("Xbox"+playerIndex+"_AButton"))
+                { //consider jump timer
+                    velocity.y = Vector3.up.y * jumpSpeed;
                 }
-*/
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                fireGun._chamber.reload(this);
-             //   AudioSource.PlayClipAtPoint(Reload01, transform.position);
-            }
+                Move();
 
+                Vector3 v = body.velocity;
+
+                if (body.velocity.x < -0.01)
+                {
+                    Vector3 temp = transform.localScale;
+                    temp.x = Mathf.Abs(temp.x) * -1;
+                    transform.localScale = temp;
+                    isTurnedRight = false;
+                }
+                else if (body.velocity.x > 0.01)
+                {
+                    Vector3 temp = transform.localScale;
+                    temp.x = Mathf.Abs(temp.x);
+                    transform.localScale = temp;
+                    isTurnedRight = true;
+                }
+                if (Mathf.Abs(v.x) > maxSpeed && onGround())
+                {
+                    Vector2 temp = v;
+                    temp.x = Mathf.Sign(temp.x) * maxSpeed;
+                    v = temp;
+                    body.velocity = v;
+                }
+
+                if (Mathf.Abs(v.x) > maxAirSpeed && !onGround())
+                {
+                    Vector2 temp = v;
+                    temp.x = Mathf.Sign(temp.x) * maxAirSpeed;
+                    v = temp;
+                    body.velocity = v;
+                }
+                if (Mathf.Abs(v.y) > maxJumpSpeed)
+                {
+                    Vector2 temp = v;
+                    temp.y = Mathf.Sign(temp.y) * maxJumpSpeed;
+                    v = temp;
+                    body.velocity = v;
+                }
+
+
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    fireGun.Shoot(this);
+                }
+                if (Input.GetKeyDown(KeyCode.R) || Input.GetButtonDown("Xbox"+playerIndex+"_XButton"))
+                {
+                    StartCoroutine(fireGun._chamber.reload(this, 2.5f));
+                }
+
+            }
         }
 
         private bool onGround()
@@ -207,9 +179,11 @@ namespace RussianStandOff
         }
         public void Death(GameObject killer)
         {
+            //Add death animation
             killer.GetComponent<Shooting>()._score++;
+            fireGun._chamber.reload();
             //Here the player should be KILLED rather than DESTROYED and moved to respawn location or smt
-            Destroy(gameObject);
+            GameManager.GM.RespawnPlayer(this, 2);
         }
     }
 }
