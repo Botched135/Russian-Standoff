@@ -24,7 +24,6 @@ namespace RussianStandOff
         private Shooting fireGun;
         // Use this for initialization
 
-
         //Sound effects
         public AudioClip click01;
         public AudioClip click02;
@@ -32,10 +31,6 @@ namespace RussianStandOff
         public AudioClip GunShot01;
         public AudioClip GunShot02;
         public AudioClip Reload01;
-
-        
-
-       
 
         void Awake()
         {
@@ -209,6 +204,12 @@ namespace RussianStandOff
         private void Move()
         {
             body.AddForce(velocity * Time.deltaTime, ForceMode2D.Force);
+        }
+        public void Death(GameObject killer)
+        {
+            killer.GetComponent<Shooting>()._score++;
+            //Here the player should be KILLED rather than DESTROYED and moved to respawn location or smt
+            Destroy(gameObject);
         }
     }
 }

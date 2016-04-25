@@ -6,12 +6,17 @@ namespace RussianStandOff
     public class Shooting : MonoBehaviour
     {
         GameObject playerRef; //for later stage with multiplayer
+
+        public int _score;
         public ChamberCode _chamber;
         public Camera mainCamera;
         private bool emptyChamber;
+        private Rigidbody2D body;
+        private float knockbackFactor = 10;
         private float lastCast = 0, coolDown = 1;
         void Awake()
         {
+            body = GetComponent<Rigidbody2D>();
             _chamber = new ChamberCode();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         }
@@ -30,10 +35,11 @@ namespace RussianStandOff
                 Debug.Log("SHOT");
                 RaycastHit2D hit = Physics2D.Raycast(transform.position + (mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized),
                                                             mainCamera.ScreenToWorldPoint(Input.mousePosition)); //needs update, basically completly fucked up
-                if (hit.collider != null && hit.collider.CompareTag("Ground"))
+                body.AddForce(-(mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized)*knockbackFactor, ForceMode2D.Impulse); //Addforce in opposite direction of the gun shot
+                if (hit.collider != null && hit.collider.CompareTag("Player"))
                 {
-                    
-                    Destroy(hit.collider.gameObject);
+                                        
+                    hit.collider.gameObject.GetComponent<Player>().Death(gameObject);
                 }
                 return true;
             }
