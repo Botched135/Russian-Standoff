@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: 8379c8fb2d27295408c2af710ae90d1e
-timeCreated: 1461152393
+timeCreated: 1461425147
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - click01: {fileID: 8300000, guid: 0573d530a2deaab4bbb6c9aad0e93a62, type: 3}
+  - click02: {fileID: 8300000, guid: 5a675ede38f26fb4b9aeaa5b3990bb35, type: 3}
+  - click03: {fileID: 8300000, guid: 298725914a25c074a8ac47ac77ebadf9, type: 3}
+  - GunShot01: {fileID: 8300000, guid: 929aa76bd5341df44bf378dcbf82d6d7, type: 3}
+  - GunShot02: {fileID: 8300000, guid: 00c47789cb9cb6c4784e05bf71826fda, type: 3}
+  - Reload01: {fileID: 8300000, guid: 81c5a45fb6874b84e809ac502b401008, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

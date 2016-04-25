@@ -65,41 +65,6 @@ namespace RussianStandOff
             { //consider jump timer
                 velocity.y = Vector3.up.y * jumpSpeed;
             }
-
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                fireGun.Shoot();
-                if (fireGun.Shoot() == false)
-                {
-                    //Play "click" sound effect
-                    int clickclick = Random.Range(1, 3);
-                    if (clickclick == 1)
-                    {
-                        AudioSource.PlayClipAtPoint(click01, transform.position);
-                    }
-                    else if (clickclick == 2)
-                    {
-                        AudioSource.PlayClipAtPoint(click02, transform.position);
-                    }
-                    else if (clickclick == 3)
-                    {
-                        AudioSource.PlayClipAtPoint(click03, transform.position);
-                    }
-                }
-                else if (fireGun.Shoot() == true)
-                {
-                    int bangbang = Random.Range(1, 2);
-                    if (bangbang == 1)
-                    {
-                        AudioSource.PlayClipAtPoint(GunShot01, transform.position);
-                    }
-                    else if (bangbang == 2)
-                    {
-                        AudioSource.PlayClipAtPoint(GunShot02, transform.position);
-                    }
-                }
-
-            }
             Move();
 
             Vector3 v = body.velocity;
@@ -142,10 +107,45 @@ namespace RussianStandOff
             }
 
 
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                fireGun._chamber.Shoot(this);
+/*
+                if(fireGun.Shoot() == false)
+                {
+                    //Play "click" sound effect
+                    int clickclick = Random.Range(1, 3);
+                    if (clickclick == 1)
+                    {
+                        AudioSource.PlayClipAtPoint(click01, transform.position);
+                    }
+                    else if (clickclick == 2)
+                    {
+                        AudioSource.PlayClipAtPoint(click02, transform.position);
+                    }
+                    else if(clickclick == 3)
+                    {
+                        AudioSource.PlayClipAtPoint(click03, transform.position);
+                    }
+                }
+                else if (fireGun.Shoot() == true)
+                {
+                    int bangbang = Random.Range(1, 2);
+                    if (bangbang == 1)
+                    {
+                        AudioSource.PlayClipAtPoint(GunShot01, transform.position);
+                    }
+                    else if (bangbang == 2)
+                    {
+                        AudioSource.PlayClipAtPoint(GunShot02, transform.position);
+                    }
+                }
+*/
+            }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                fireGun._chamber.reload();
-                AudioSource.PlayClipAtPoint(Reload01, transform.position);
+                fireGun._chamber.reload(this);
+             //   AudioSource.PlayClipAtPoint(Reload01, transform.position);
             }
 
         }
