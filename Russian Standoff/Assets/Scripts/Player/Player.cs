@@ -110,7 +110,7 @@ namespace RussianStandOff
                 }
 
 
-                if (Input.GetKeyDown(KeyCode.W))
+                if (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("Xbox" + playerIndex + "_RightTrigger") == 1)
                 {
                     fireGun.Shoot(this);
                 }
@@ -170,8 +170,8 @@ namespace RussianStandOff
         }
         private void SetRayPoints()
         {
-            this.rayPointLeft.transform.position = new Vector2(transform.position.x - 0.5f * scaleFactorX, transform.position.y - 1f * scaleFactorY);//first in placement(Outermost left point), y is the bottom of the player 
-            this.rayPointRight.transform.position = new Vector2(transform.position.x + 0.5f * scaleFactorX, transform.position.y - 1f * scaleFactorY);//x is outermost right point, y is the bottom of the player
+            this.rayPointLeft.transform.position = new Vector2(transform.position.x - 0.5f * scaleFactorX, transform.position.y - 1.1f * scaleFactorY);//first in placement(Outermost left point), y is the bottom of the player 
+            this.rayPointRight.transform.position = new Vector2(transform.position.x + 0.5f * scaleFactorX, transform.position.y - 1.1f * scaleFactorY);//x is outermost right point, y is the bottom of the player
         }
         private void Move()
         {

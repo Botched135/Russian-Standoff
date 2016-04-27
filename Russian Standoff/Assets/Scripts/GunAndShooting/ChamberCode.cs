@@ -44,10 +44,8 @@ namespace RussianStandOff
                     //FIRE!
                     shotsLeft--;
                     int bangbang = Random.Range(1, 2);
-                    Debug.Log(bangbang);
                     if (bangbang == 1)
                     {
-
                         AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position);
                         return true;
                     }
