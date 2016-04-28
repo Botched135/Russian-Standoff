@@ -55,11 +55,11 @@ namespace RussianStandOff
                     if (bangbang == 1)
                     {
 
-                        AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position);
+                        AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position, 1.0F);
                     }
                     else if (bangbang == 2)
                     {
-                        AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position);
+                        AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position, 1.0F);
                     }
                         return true;
                     }
@@ -70,15 +70,15 @@ namespace RussianStandOff
                         int clickclick = Random.Range(1, 3);
                         if (clickclick == 1)
                         {
-                            AudioSource.PlayClipAtPoint(source.click01, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click01, source.transform.position, 0.4F);
                         }
                         else if (clickclick == 2)
                         {
-                            AudioSource.PlayClipAtPoint(source.click02, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click02, source.transform.position, 0.4F);
                         }
                         else if (clickclick == 3)
                         {
-                            AudioSource.PlayClipAtPoint(source.click03, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click03, source.transform.position, 0.4F);
                         }
                         return false;
 
@@ -105,7 +105,7 @@ namespace RussianStandOff
             }
             Debug.Log(printing);
 
-            AudioSource.PlayClipAtPoint(source.Reload01, source.transform.position);
+            AudioSource.PlayClipAtPoint(source.Reload01, source.transform.position, 0.5F);
 
         }
         public bool[] FeelingLuckyPunk()
