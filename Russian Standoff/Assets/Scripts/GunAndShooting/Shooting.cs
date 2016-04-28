@@ -6,7 +6,7 @@ namespace RussianStandOff
 {
     public class Shooting : MonoBehaviour
     {
-        //PlayerIndex playerRef; //for later stage with multiplayer
+        public GameObject arm;
         private Player player;
         public int _score;
         public ChamberCode _chamber;
@@ -24,6 +24,13 @@ namespace RussianStandOff
         }
        void Update()
         {
+
+
+            Vector3 vectorToTarget = new Vector3((float)Input.GetAxis("Xbox" + player.playerIndex + "_X_Axis_Right"),
+                                                        -(float)Input.GetAxis("Xbox" + player.playerIndex + "_Y_Axis_Right"));
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+           arm.transform.rotation = q;
             Debug.DrawRay(transform.position+ new Vector3((float)Input.GetAxis("Xbox" +player.playerIndex  + "_X_Axis_Right"),
                                                         -(float)Input.GetAxis("Xbox" + player.playerIndex + "_Y_Axis_Right")).normalized/1.75f, 
                                               new Vector2((float)Input.GetAxis("Xbox" + player.playerIndex + "_X_Axis_Right"), 

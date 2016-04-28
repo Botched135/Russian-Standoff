@@ -80,7 +80,7 @@ namespace RussianStandOff
                 }
                 else
                 {
-                Debug.Log(source.name);
+                
                 float v = 2.5f;
                 StartCoroutine(reload(source, v));
                 return false;

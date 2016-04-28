@@ -41,8 +41,8 @@ namespace RussianStandOff
             fireGun = GetComponent<Shooting>();
             scaleFactorX = transform.localScale.x;
             scaleFactorY = transform.localScale.y;
-            jumpSpeed = 10000;
-            speed = 500;
+            jumpSpeed = 12500;
+            speed = 400;
             maxSpeed = 12f;
             maxAirSpeed = 10f;
             maxJumpSpeed = 28f;
@@ -124,6 +124,7 @@ namespace RussianStandOff
 
         private bool onGround()
         {
+            
             RaycastHit2D hit = Physics2D.Raycast(rayPointLeft.transform.position, Vector2.down, 0.1f);// last parameter is distance until you are on the ground
             if (hit.collider != null && hit.collider.CompareTag("Ground"))
                 return true;
@@ -170,8 +171,8 @@ namespace RussianStandOff
         }
         private void SetRayPoints()
         {
-            this.rayPointLeft.transform.position = new Vector2(transform.position.x - 0.5f * scaleFactorX, transform.position.y - 1.1f * scaleFactorY);//first in placement(Outermost left point), y is the bottom of the player 
-            this.rayPointRight.transform.position = new Vector2(transform.position.x + 0.5f * scaleFactorX, transform.position.y - 1.1f * scaleFactorY);//x is outermost right point, y is the bottom of the player
+            this.rayPointLeft.transform.position = new Vector2(transform.position.x - 0.75f * scaleFactorX, transform.position.y - 2.25f * scaleFactorY);//first in placement(Outermost left point), y is the bottom of the player 
+            this.rayPointRight.transform.position = new Vector2(transform.position.x + 0.75f * scaleFactorX, transform.position.y - 2.25f * scaleFactorY);//x is outermost right point, y is the bottom of the player
         }
         private void Move()
         {
