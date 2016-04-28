@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GUIManager.cs" />
     <Compile Include="Assets\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameManager\MenuManager.cs" />
     <Compile Include="Assets\Scripts\GunAndShooting\ChamberCode.cs" />
