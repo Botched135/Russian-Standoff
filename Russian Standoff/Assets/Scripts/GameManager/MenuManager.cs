@@ -98,26 +98,26 @@ namespace RussianStandOff {
             else if (_currentState == MenuStates.AddingPlayers)
             {
                 
-                if (Input.GetButtonDown("XboxOne_AButton"))
+                if (Input.GetButtonDown("XboxOne_AButton") || Input.GetKeyDown(KeyCode.Alpha1))
                 {
                     GameManager.GM.joinedPlayer[0] = !GameManager.GM.joinedPlayer[0];
                     triggers[0] = !triggers[0];
                     ActivePlayer[0].SetActive(triggers[0]);
                     
                 }
-                if (Input.GetButtonDown("XboxTwo_AButton"))
+                if (Input.GetButtonDown("XboxTwo_AButton") || Input.GetKeyDown(KeyCode.Alpha2))
                 {
                     GameManager.GM.joinedPlayer[1] = !GameManager.GM.joinedPlayer[1];
                     triggers[1] = !triggers[1];
                     ActivePlayer[1].SetActive(triggers[1]);
                 }
-                if (Input.GetButtonDown("XboxThree_AButton"))
+                if (Input.GetButtonDown("XboxThree_AButton") || Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     GameManager.GM.joinedPlayer[2] = !GameManager.GM.joinedPlayer[2];
                     triggers[2] = !triggers[2];
                     ActivePlayer[2].SetActive(triggers[2]);
                 }
-                if (Input.GetButtonDown("XboxFour_AButton"))
+                if (Input.GetButtonDown("XboxFour_AButton") || Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     GameManager.GM.joinedPlayer[3] = !GameManager.GM.joinedPlayer[3];
                     triggers[3] = !triggers[3];
