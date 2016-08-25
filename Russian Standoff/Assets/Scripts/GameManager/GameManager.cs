@@ -45,7 +45,7 @@ namespace RussianStandOff
 
         void Update()
         {
-            if (menuManager._currentState == MenuManager.MenuStates.AddingPlayers && Input.GetButtonDown("XboxOne_YButton"))
+            if (menuManager._currentState == MenuManager.MenuStates.AddingPlayers && (Input.GetButtonDown("XboxOne_YButton") || Input.GetKeyDown(KeyCode.Y)))
             {
                 menuManager._currentState = MenuManager.MenuStates.InGame;
                 SceneManager.LoadScene(1);
