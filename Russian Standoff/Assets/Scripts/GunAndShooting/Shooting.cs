@@ -36,7 +36,7 @@ namespace RussianStandOff
                                               new Vector2((float)Input.GetAxis("Xbox" + player.playerIndex + "_X_Axis_Right"), 
                                                         -(float)Input.GetAxis("Xbox" + player.playerIndex + "_Y_Axis_Right")), Color.red);
         }
-        public bool Shoot(Player source)
+        public bool Shoot(Player source) //player dies if there is no aim... 
         {
             if (lastCast + coolDown <= Time.time)
             {
