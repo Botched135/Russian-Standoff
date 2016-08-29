@@ -11,14 +11,12 @@ namespace RussianStandOff
         //rayPoints
         [SerializeField]
         private GameObject rayPointLeft, rayPointRight, bottomRayPoint, middleRayPoint, topRayPoint;
+        [SerializeField]
+        private bool controllerActive;
         Camera mainCamera;
 
         private Vector3 velocity;
-        public float jumpSpeed;
-        public float speed = 1000;
-        public float maxSpeed = 10;
-        public float maxAirSpeed = 10;
-        public float maxJumpSpeed;
+        public float jumpSpeed, speed, maxSpeed, maxAirSpeed, maxJumpSpeed;
 
         private bool isTurnedRight;
         private float scaleFactorX, scaleFactorY;
@@ -41,11 +39,11 @@ namespace RussianStandOff
             fireGun = GetComponent<Shooting>();
             scaleFactorX = transform.localScale.x;
             scaleFactorY = transform.localScale.y;
-            jumpSpeed = 12500;
-            speed = 400;
-            maxSpeed = 12f;
-            maxAirSpeed = 10f;
-            maxJumpSpeed = 28f;
+            jumpSpeed = 50;
+            speed = 20;
+            maxSpeed = 1.75f;
+            maxAirSpeed = 1.5f;
+            maxJumpSpeed = 50f;
             body = this.GetComponent<Rigidbody2D>();
             SetRayPoints();
 
@@ -53,22 +51,49 @@ namespace RussianStandOff
 
         }
         // Update is called once per frame
-        void Update()
+        void Update()   
         {
-            velocity = Vector3.zero;
+            if (onGround() && (Input.GetButtonDown("Xbox" + playerIndex + "_AButton") || Input.GetKeyDown(KeyCode.Space)))
+            { //consider jump timer
+                body.AddForce(new Vector2(0,Vector3.up.y * jumpSpeed)); //not predictable
+            }
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("Xbox" + playerIndex + "_RightTrigger") == 1)
+                {
+                    fireGun.Shoot(this);
+                }
+                if (Input.GetKeyDown(KeyCode.R) || Input.GetButtonDown("Xbox"+playerIndex+"_XButton"))
+                {
+                    StartCoroutine(fireGun._chamber.reload(this, 2.5f));
+                }
+        }
+        void FixedUpdate()
+        {
+            if (onGround())
+            body.velocity = new Vector2(0, body.velocity.y); //cannot be constantly as they will tend to ignore gravity, works fine atm but might need some tweeking
+
             if (!fireGun._chamber.isReloading)
             {
 
-
-                if (Mathf.Abs(Input.GetAxis("Xbox"+playerIndex+"_X_Axis_Left"))>0.25f && !MidAirCollision())
+                if (controllerActive)
                 {
-                    velocity.x = Input.GetAxis("Xbox"+playerIndex+"_X_Axis_Left")* speed;
+                    if (Mathf.Abs(Input.GetAxis("Xbox" + playerIndex + "_X_Axis_Left")) > 0.25f && !MidAirCollision()) //sliding too much around
+                    {
+                        body.velocity = new Vector2(Input.GetAxis("Xbox" + playerIndex + "_X_Axis_Left") * speed, body.velocity.y);
+                    }
                 }
-                if (onGround() && Input.GetButtonDown("Xbox"+playerIndex+"_AButton"))
-                { //consider jump timer
-                    velocity.y = Vector3.up.y * jumpSpeed;
+                else if (!controllerActive)
+                {
+                    if (Input.GetKey(KeyCode.LeftArrow) && !MidAirCollision())
+                    {
+                        body.velocity= new Vector2(-speed, body.velocity.y);
+                    }
+                    if (Input.GetKey(KeyCode.RightArrow) && !MidAirCollision())
+                    {
+                        body.velocity = new Vector2(speed, body.velocity.y);
+                    }
                 }
-                Move();
+               
+                //Move();
 
                 Vector3 v = body.velocity;
 
@@ -78,6 +103,8 @@ namespace RussianStandOff
                     temp.x = Mathf.Abs(temp.x) * -1;
                     transform.localScale = temp;
                     isTurnedRight = false;
+
+                    //TO-DO: Avoid making the arm turn
                 }
                 else if (body.velocity.x > 0.01)
                 {
@@ -86,7 +113,7 @@ namespace RussianStandOff
                     transform.localScale = temp;
                     isTurnedRight = true;
                 }
-                if (Mathf.Abs(v.x) > maxSpeed && onGround())
+                if (Mathf.Abs(v.x) > maxSpeed && onGround())// try to modify
                 {
                     Vector2 temp = v;
                     temp.x = Mathf.Sign(temp.x) * maxSpeed;
@@ -108,18 +135,9 @@ namespace RussianStandOff
                     v = temp;
                     body.velocity = v;
                 }
-
-
-                if (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("Xbox" + playerIndex + "_RightTrigger") == 1)
-                {
-                    fireGun.Shoot(this);
-                }
-                if (Input.GetKeyDown(KeyCode.R) || Input.GetButtonDown("Xbox"+playerIndex+"_XButton"))
-                {
-                    StartCoroutine(fireGun._chamber.reload(this, 2.5f));
-                }
-
             }
+
+
         }
 
         private bool onGround()
@@ -176,7 +194,7 @@ namespace RussianStandOff
         }
         private void Move()
         {
-            body.AddForce(velocity * Time.deltaTime, ForceMode2D.Force);
+            body.AddForce(velocity * Time.deltaTime, ForceMode2D.Force);//This nneds to be revaluated
         }
         public void Death(GameObject killer)
         {
