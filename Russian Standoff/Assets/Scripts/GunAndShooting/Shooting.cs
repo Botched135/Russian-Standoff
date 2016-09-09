@@ -13,8 +13,10 @@ namespace RussianStandOff
         public Camera mainCamera;
         private bool emptyChamber;
         private Rigidbody2D body;
+        [SerializeField]
         private float knockbackFactor = 10;
         private float lastCast = 0, coolDown = 1;
+        private float angle;
         void Awake()
         {
             body = GetComponent<Rigidbody2D>();
@@ -28,9 +30,13 @@ namespace RussianStandOff
 
             Vector3 vectorToTarget = new Vector3((float)Input.GetAxis("Xbox" + player.playerIndex + "_X_Axis_Right"),
                                                         -(float)Input.GetAxis("Xbox" + player.playerIndex + "_Y_Axis_Right"));
-            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+            if (player.isTurnedRight)
+                angle = Mathf.Atan2(vectorToTarget.x, -vectorToTarget.y) * Mathf.Rad2Deg;
+            else
+                angle = Mathf.Atan2(-vectorToTarget.x, -vectorToTarget.y) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-           arm.transform.rotation = q;
+
+           arm.transform.rotation = q; //works!
             Debug.DrawRay(transform.position+ new Vector3((float)Input.GetAxis("Xbox" +player.playerIndex  + "_X_Axis_Right"),
                                                         -(float)Input.GetAxis("Xbox" + player.playerIndex + "_Y_Axis_Right")).normalized/1.75f, 
                                               new Vector2((float)Input.GetAxis("Xbox" + player.playerIndex + "_X_Axis_Right"), 

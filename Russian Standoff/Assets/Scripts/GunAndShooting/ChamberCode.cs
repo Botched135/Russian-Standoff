@@ -34,8 +34,7 @@ namespace RussianStandOff
 
         public bool Shoot(Player source)
         {
-            Debug.Log(shotsLeft);
-            //If the chamber isn't empty and you try to shoot, you'll shoot or shoot a blank depending on shotPercentage
+
             if (shotsLeft > 0)
             {
 
@@ -46,12 +45,12 @@ namespace RussianStandOff
                     int bangbang = Random.Range(1, 2);
                     if (bangbang == 1)
                     {
-                        AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position);
+                        AudioSource.PlayClipAtPoint(source.GunShot01, source.transform.position, 1f);
                         return true;
                     }
                     else if (bangbang == 2)
                     {
-                        AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position);
+                        AudioSource.PlayClipAtPoint(source.GunShot02, source.transform.position, 1f);
                         return true;
                     }
                     return true;
@@ -63,15 +62,15 @@ namespace RussianStandOff
                         int clickclick = Random.Range(1, 3);
                         if (clickclick == 1)
                         {
-                            AudioSource.PlayClipAtPoint(source.click01, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click01, source.transform.position,0.5f);
                         }
                         else if (clickclick == 2)
                         {
-                            AudioSource.PlayClipAtPoint(source.click02, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click02, source.transform.position, 0.5f);
                         }
                         else if (clickclick == 3)
                         {
-                            AudioSource.PlayClipAtPoint(source.click03, source.transform.position);
+                            AudioSource.PlayClipAtPoint(source.click03, source.transform.position, 0.5f);
                         }
                         return false;
 
@@ -81,8 +80,7 @@ namespace RussianStandOff
                 else
                 {
                 
-                float v = 2.5f;
-                StartCoroutine(reload(source, v));
+                StartCoroutine(reload(source, 2.5f));
                 return false;
                 }
             
