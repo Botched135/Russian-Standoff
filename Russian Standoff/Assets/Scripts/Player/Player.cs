@@ -8,17 +8,19 @@ namespace RussianStandOff
     {
         public int playerNum;
         public PlayerIndex playerIndex;
-        //rayPoints
+        //rayPoint
         [SerializeField]
         private GameObject rayPointLeft, rayPointRight, bottomRayPoint, middleRayPoint, topRayPoint;
         [SerializeField]
         private bool controllerActive;
         Camera mainCamera;
 
+        public GameObject arm;
+
         private Vector3 velocity;
         public float jumpSpeed, speed, maxSpeed, maxAirSpeed, maxJumpSpeed;
 
-        private bool isTurnedRight;
+        public bool isTurnedRight;
         private float scaleFactorX, scaleFactorY;
         private Rigidbody2D body;
 
@@ -35,14 +37,14 @@ namespace RussianStandOff
 
         void Start()
         {
+            controllerActive = true;
             playerIndex = (PlayerIndex)playerNum;
             fireGun = GetComponent<Shooting>();
             scaleFactorX = transform.localScale.x;
             scaleFactorY = transform.localScale.y;
-            jumpSpeed = 50;
-            speed = 20;
-            maxSpeed = 1.75f;
-            maxAirSpeed = 1.5f;
+            jumpSpeed = 300;
+            speed = 2.5f;
+            maxAirSpeed = 2.25f;
             maxJumpSpeed = 50f;
             body = this.GetComponent<Rigidbody2D>();
             SetRayPoints();
@@ -76,7 +78,7 @@ namespace RussianStandOff
 
                 if (controllerActive)
                 {
-                    if (Mathf.Abs(Input.GetAxis("Xbox" + playerIndex + "_X_Axis_Left")) > 0.25f && !MidAirCollision()) //sliding too much around
+                    if (Mathf.Abs(Input.GetAxis("Xbox" + playerIndex + "_X_Axis_Left")) > 0.26f && !MidAirCollision())
                     {
                         body.velocity = new Vector2(Input.GetAxis("Xbox" + playerIndex + "_X_Axis_Left") * speed, body.velocity.y);
                     }
@@ -93,33 +95,30 @@ namespace RussianStandOff
                     }
                 }
                
-                //Move();
 
                 Vector3 v = body.velocity;
 
-                if (body.velocity.x < -0.01)
+                if (v.x < -0.01)
                 {
                     Vector3 temp = transform.localScale;
                     temp.x = Mathf.Abs(temp.x) * -1;
                     transform.localScale = temp;
                     isTurnedRight = false;
-
-                    //TO-DO: Avoid making the arm turn
                 }
-                else if (body.velocity.x > 0.01)
+                else if (v.x > 0.01)
                 {
                     Vector3 temp = transform.localScale;
                     temp.x = Mathf.Abs(temp.x);
                     transform.localScale = temp;
                     isTurnedRight = true;
                 }
-                if (Mathf.Abs(v.x) > maxSpeed && onGround())// try to modify
+              /*  if (Mathf.Abs(v.x) > maxSpeed && onGround())// try to modify
                 {
                     Vector2 temp = v;
                     temp.x = Mathf.Sign(temp.x) * maxSpeed;
                     v = temp;
                     body.velocity = v;
-                }
+                }*/
 
                 if (Mathf.Abs(v.x) > maxAirSpeed && !onGround())
                 {
@@ -150,6 +149,7 @@ namespace RussianStandOff
             RaycastHit2D hit2 = Physics2D.Raycast(rayPointRight.transform.position, Vector2.down, 0.1f);
             if (hit2.collider != null && hit2.collider.CompareTag("Ground"))
                 return true;
+
             return false;
         }
         private bool MidAirCollision()
@@ -192,10 +192,7 @@ namespace RussianStandOff
             this.rayPointLeft.transform.position = new Vector2(transform.position.x - 0.75f * scaleFactorX, transform.position.y - 2.25f * scaleFactorY);//first in placement(Outermost left point), y is the bottom of the player 
             this.rayPointRight.transform.position = new Vector2(transform.position.x + 0.75f * scaleFactorX, transform.position.y - 2.25f * scaleFactorY);//x is outermost right point, y is the bottom of the player
         }
-        private void Move()
-        {
-            body.AddForce(velocity * Time.deltaTime, ForceMode2D.Force);//This nneds to be revaluated
-        }
+
         public void Death(GameObject killer)
         {
             //Add death animation

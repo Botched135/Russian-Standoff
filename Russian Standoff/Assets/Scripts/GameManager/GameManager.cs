@@ -9,7 +9,7 @@ namespace RussianStandOff
         private MenuManager menuManager;
         private static GameManager _GM;
         [SerializeField]
-        private GameObject playerPrefab;
+        private GameObject[] playerPrefab = new GameObject[4];
         [SerializeField]
         private Transform[] spawnPoints;
         private bool gameStarted;
@@ -52,13 +52,11 @@ namespace RussianStandOff
                 StartCoroutine(intialSpawning());
             }
         }
-
-        // Update is called once per frame
         public void SpawnPlayers(int i) //spawn All active players
         {
             Vector3 spawnPosition = spawnPoints[i].position;
 
-            GameObject obj = Instantiate(playerPrefab, spawnPosition, playerPrefab.transform.rotation) as GameObject;
+            GameObject obj = Instantiate(playerPrefab[i], spawnPosition, playerPrefab[i].transform.rotation) as GameObject;
             obj.GetComponent<Player>().playerNum = i;
         }
 
