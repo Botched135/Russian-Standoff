@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Russian Standoff.CSharp.Plugins", "Russian Standoff.CSharp.Plugins.csproj", "{BFDD94C4-B392-4138-9D4A-38F29ABB790E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Russian Standoff.CSharp", "Russian Standoff.CSharp.csproj", "{61ECFEEC-025E-767E-E9D4-9FC230FB540D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Russian Standoff.CSharp.Editor", "Russian Standoff.CSharp.Editor.csproj", "{FD2AFF43-C8EF-A65F-2766-D93B23CFB6C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFDD94C4-B392-4138-9D4A-38F29ABB790E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDD94C4-B392-4138-9D4A-38F29ABB790E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDD94C4-B392-4138-9D4A-38F29ABB790E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDD94C4-B392-4138-9D4A-38F29ABB790E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61ECFEEC-025E-767E-E9D4-9FC230FB540D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61ECFEEC-025E-767E-E9D4-9FC230FB540D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61ECFEEC-025E-767E-E9D4-9FC230FB540D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61ECFEEC-025E-767E-E9D4-9FC230FB540D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD2AFF43-C8EF-A65F-2766-D93B23CFB6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD2AFF43-C8EF-A65F-2766-D93B23CFB6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD2AFF43-C8EF-A65F-2766-D93B23CFB6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD2AFF43-C8EF-A65F-2766-D93B23CFB6C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
